@@ -23,7 +23,7 @@ const double Lf = 2.67;
 
 // NOTE: feel free to play around with this
 // or do something completely different
-double ref_v = 120;
+double ref_v = 100;
 
 // The solver takes all the state variables and actuator
 // variables in a singular vector. Thus, we should to establish
@@ -37,6 +37,10 @@ size_t epsi_start = cte_start + N;
 size_t delta_start = epsi_start + N;
 size_t a_start = delta_start + N - 1;
 
+
+// weights for the different parts of the cost function
+double weights[7] = {1000, 1000, 1.5, 0.9, 2, 35, 4};
+//double weights[7] = {1, 1, 1, 1, 1, 1, 1};
 class FG_eval {
  public:
   // Fitted polynomial coefficients
@@ -56,21 +60,21 @@ class FG_eval {
     // Reference State Cost
     // The part of the cost based on the reference state.
     for (int i = 0; i < N; i++) {
-      fg[0] += 1000*CppAD::pow(vars[cte_start + i], 2);
-      fg[0] += 1000*CppAD::pow(vars[epsi_start + i], 2);
-      fg[0] += 1.4*CppAD::pow(vars[v_start + i] - ref_v, 2);
+      fg[0] += weights[0]*CppAD::pow(vars[cte_start + i], 2);
+      fg[0] += weights[1]*CppAD::pow(vars[epsi_start + i], 2);
+      fg[0] += weights[2]*CppAD::pow(vars[v_start + i] - ref_v, 2);
     }
 
     // Minimize the use of actuators.
     for (int i = 0; i < N - 1; i++) {
-      fg[0] += 0.9*CppAD::pow(vars[delta_start + i], 2);
-      fg[0] += 2*CppAD::pow(vars[a_start + i], 2);
+      fg[0] += weights[3]*CppAD::pow(vars[delta_start + i], 2);
+      fg[0] += weights[4]*CppAD::pow(vars[a_start + i], 2);
     }
 
     // Minimize the value gap between sequential actuations.
     for (int i = 0; i < N - 2; i++) {
-      fg[0] += 35*CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
-      fg[0] += 4*CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
+      fg[0] += weights[5]*CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
+      fg[0] += weights[6]*CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
     }
 
     //
