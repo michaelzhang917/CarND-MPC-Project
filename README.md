@@ -3,6 +3,10 @@ Self-Driving Car Engineer Nanodegree Program
 
 ## Reflection
 
+### Model description
+
+We constructed the model in MPC.c. In lines 60-72, we constructed the cost function which consisted of three parts. In the first part, we penalized the objective function based on the reference state. In the second part, we penalized the usage of the actuators. In the third part, we penalized the value gap between sequential actuations. Then in lines 89-147, we set up variables for the cost function. We set up bounds for the variables in lines 194-236. 
+
  speed 100 https://youtu.be/J988AHH64xo
  
  speed 120 https://youtu.be/Fy7iRrcohfc
