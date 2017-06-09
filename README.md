@@ -1,6 +1,11 @@
 # CarND-Controls-MPC
 Self-Driving Car Engineer Nanodegree Program
 
+
+ speed 100 https://youtu.be/J988AHH64xo
+ speed 120 https://youtu.be/Fy7iRrcohfc
+ speed 50  https://youtu.be/5piWJfWjpi0
+ speed 100F https://youtu.be/BT_tsAFVoAk
 ---
 
 ## Dependencies
